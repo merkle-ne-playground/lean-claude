@@ -1,0 +1,6 @@
+{
+  "name": "lean-claude",
+  "description": "Token and context efficiency for Claude Code: a guidelines skill plus /token-audit and /token-setup commands. Cuts avoidable spend without losing output quality.",
+  "version": "0.1.0",
+  "author": { "name": "Augustin Gottlieb", "url": "https://github.com/merkle-ne-playground/lean-claude" }
+}
