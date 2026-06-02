@@ -1,0 +1,7 @@
+{
+  "name": "lean-claude",
+  "owner": { "name": "Merkle NE Playground" },
+  "plugins": [
+    { "name": "lean-claude", "source": "./", "description": "Token/context efficiency guidelines, audit, and setup for Claude Code." }
+  ]
+}
