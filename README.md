@@ -15,6 +15,23 @@ Token and context efficiency for Claude Code — spend fewer tokens without losi
 - **`/token-audit`** — read-only inspection of your Claude Code config and installed skills; flags oversized SKILL.md files and missing token-saving config, and outputs a prioritised list of recommended changes.
 - **`/token-setup`** — interactive wizard that applies the recommended changes from `/token-audit`, with an explicit confirmation prompt before every write.
 
+## Usage
+
+Ask Claude to work leanly in plain language — the skill triggers on phrases like *"save tokens"*, *"be lean"*, *"reduce context"*:
+
+```
+> keep this session lean on tokens
+```
+
+Audit your setup, then apply the safe recommendations:
+
+```
+/token-audit      # read-only: reports oversized skills + config wins, writes nothing
+/token-setup      # applies the audit's recommendations, confirming before each write
+```
+
+A typical `/token-audit` report flags skills whose `SKILL.md` exceeds 20 KB, suggests `skillOverrides` for skills you rarely auto-trigger, and points out a missing or oversized `skillListingMaxDescChars`. `/token-setup` then walks each change with a yes/no prompt — nothing is written without your confirmation, and existing config is merged, never overwritten.
+
 ## Practices
 
 Six rules that the `token-efficiency` skill enforces:
@@ -28,7 +45,16 @@ Six rules that the `token-efficiency` skill enforces:
 
 ## Complementary
 
-[**caveman**](https://github.com/JuliusBrussee/caveman) by JuliusBrussee (MIT) — commit-message discipline and additional context hygiene. Third-party plugin; referenced here for discoverability, not bundled.
+[**caveman**](https://github.com/JuliusBrussee/caveman) by JuliusBrussee (MIT) — an ultra-compressed communication mode that cuts roughly 75% of output tokens by dropping filler while keeping full technical accuracy. Pairs well with lean-claude. Third-party plugin; referenced here for discoverability, not bundled.
+
+## Contributing
+
+Issues and PRs welcome. The plugin is intentionally small — keep additions lean:
+
+- **Skill content** lives in `skills/token-efficiency/`. Keep `SKILL.md` thin (under ~4 KB); put depth in `reference/` files that are read on demand. New guidance usually means a new or extended reference file, not a fatter core.
+- **Commands** are prompt-type markdown in `commands/` — no scripts, no runtime dependencies. `/token-audit` must stay read-only; `/token-setup` must confirm before every write and merge rather than replace config.
+- **No session hooks.** A `SessionStart` hook that injects content every session would defeat the plugin's purpose. Don't add one.
+- Run a quick install smoke test (`/plugin marketplace add` + `/plugin install`) before opening a PR.
 
 ## License
 
